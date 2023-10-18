@@ -37,7 +37,7 @@ CREATE TABLE `libros` (
   `nombre` varchar(30) NOT NULL,
   `autor` varchar(30) NOT NULL,
   `categoria` varchar(30) NOT NULL,
-  `año-publicacion` date NOT NULL,
+  `anio_publicacion` date NOT NULL,
   `ISBN` varchar(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -45,7 +45,7 @@ CREATE TABLE `libros` (
 -- Volcado de datos para la tabla `libros`
 --
 
-INSERT INTO `libros` (`id`, `nombre`, `autor`, `categoria`, `año-publicacion`, `ISBN`) VALUES
+INSERT INTO `libros` (`id`, `nombre`, `autor`, `categoria`, `anio_publicacion`, `ISBN`) VALUES
 (1, 'LIBRO1', 'AUTOR1', 'CATEGORIA1', '2011-01-01', '11111'),
 (2, 'LIBRO2', 'AUTOR2', 'CATEGORIA2', '2012-02-02', '22222'),
 (3, 'LIBRO3', 'AUTOR3', 'CATEGORIA3', '2013-03-03', '33333');
