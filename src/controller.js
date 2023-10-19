@@ -16,6 +16,7 @@ class LibroController{
 /****************************Proceso de Agregar Registros***************/
 	async agregar (req,res){
 	    try{
+		/**************** Validación del ingreso correcto de los campos ***********/
 		const autor = req.body.autor;
 		const nombre = req.body.nombre;
 		const categoria = req.body.categoria;
@@ -27,6 +28,8 @@ class LibroController{
 		    res.status(400).json({ Error: 'Verificar los parámetros definidos!!!' });
 		    return;
 		   }
+
+		/*************** Fin Validación del ingreso correcto de los campos  *************/
 		
 	        const libro = req.body;
 
@@ -51,8 +54,21 @@ class LibroController{
 /********************** Proceso de Actualizar Registros ********************/
 
 	async actualizar (req,res){
-	    const libro = req.body;
-	    try{
+
+	   try{
+
+		/**************** Validación del campo ISBN ***********/
+		const ISBN = req.body.ISBN;
+
+		if (!ISBN){
+		   console.log ("Error: Verificar parámetro ISBN!!!");
+		    res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
+		    return;
+		   }
+
+		/**************** FIN Validación del campo ISBN ***********/
+	        const libro = req.body;
+	    
 		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE IBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
 
 		
