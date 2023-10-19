@@ -92,8 +92,21 @@ class LibroController{
 /************************ Proceso de Eliminar Registros ************************/
 
 	async eliminar (req,res){
+	   try{
+		/**************** Validación del campo ISBN ***********/
+		const ISBN = req.body.ISBN;
+
+		if (!ISBN){
+		   console.log ("Error: Verificar parámetro ISBN!!!");
+		    res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
+		    return;
+		   }
+
+		/**************** FIN Validación del campo ISBN ***********/
+
+
  	    const libro = req.body;
-	    try{
+	    
 		const [result] = await pool.query(`DELETE FROM libros  WHERE ISBN=(?)`,[libro.ISBN]);
 
 
