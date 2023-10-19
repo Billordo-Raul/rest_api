@@ -51,6 +51,21 @@ class LibroController{
 
 	}
 
+	/*Proceso de Eliminar Registros*/
+
+	async eliminar (req,res){
+ 	    const libro = req.body;
+	    try{
+		const [result] = await pool.query(`DELETE FROM libros  WHERE ISBN=(?)`,[libro.ISBN]);
+		res.json({"Registros Eliminados ":result.affectedRows});
+
+	    }catch (e){
+	        console.log( e);
+		const Error = e.message;
+		res.status(400).json({Error });	
+
+	    }
+	}
 
 
 

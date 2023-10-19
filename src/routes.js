@@ -8,3 +8,4 @@ router.get('/consulta',libro.getOne);
 
 router.post('/agregar',libro.agregar); 
 router.put('/actualizar',libro.actualizar);
+router.delete('/eliminar',libro.eliminar);
