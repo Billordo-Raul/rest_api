@@ -13,15 +13,32 @@ class LibroController{
 		res.json(result);
 	}
 
-	/*Proceso de Agregar Registros*/
+/****************************Proceso de Agregar Registros***************/
 	async agregar (req,res){
-	    const libro = req.body;
 	    try{
-	
-		const [result] = await pool.query(`INSERT INTO libros(nombre,autor,categoria,anio_publicacion,ISBN) VALUES (?,?,?,?,?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN]);
-		res.json({"ID insertado":result.insertId});
+		const autor = req.body.autor;
+		const nombre = req.body.nombre;
+		const categoria = req.body.categoria;
+		const anio_publicacion = req.body.anio_publicacion;
+		const ISBN = req.body.ISBN;
 
-		 
+		if (!autor || !nombre || !categoria || !anio_publicacion || !ISBN){
+		   console.log ("Verificar los parámetros definidos!!!");
+		    res.status(400).json({ Error: 'Verificar los parámetros definidos!!!' });
+		    return;
+		   }
+		
+	        const libro = req.body;
+
+		const [result] = await pool.query(`INSERT INTO libros(nombre,autor,categoria,anio_publicacion,ISBN) VALUES (?,?,?,?,?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN]);
+
+		if (result.affectedRows > 0) {
+			res.json({"ID insertado":result.insertId});
+		    } else {
+			res.status(400).json('No se registro correctamente el libro!!!');	
+		    }		 
+
+
 	    }catch (e){
 
 	        console.log( e);
@@ -31,15 +48,20 @@ class LibroController{
 
 	}
 
-	/*Proceso de Actualizar Registros*/
+/********************** Proceso de Actualizar Registros ********************/
 
 	async actualizar (req,res){
 	    const libro = req.body;
 	    try{
-		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE ISBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
+		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE IBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
 
-		res.json({"Registros actualizados ":result.changedRows});
 		
+		
+		if (result.affectedRows > 0) {
+			res.json({"Registros actualizados ":result.changedRows});
+		    } else {
+			res.status(400).json("No se pudo actualizar los datos del libro!!!");	
+		    }		 
 		
 	    }catch (e){
 		
@@ -51,13 +73,23 @@ class LibroController{
 
 	}
 
-	/*Proceso de Eliminar Registros*/
+/************************ Proceso de Eliminar Registros ************************/
 
 	async eliminar (req,res){
  	    const libro = req.body;
 	    try{
 		const [result] = await pool.query(`DELETE FROM libros  WHERE ISBN=(?)`,[libro.ISBN]);
-		res.json({"Registros Eliminados ":result.affectedRows});
+
+
+
+		if (result.affectedRows > 0) {
+			res.json({"Registros Eliminados ":result.affectedRows});
+		    } else {
+			res.status(400).json("No se pudo eliminar el libro espedificado!!!");	
+		    }		 
+
+
+
 
 	    }catch (e){
 	        console.log( e);
