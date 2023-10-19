@@ -13,13 +13,14 @@ class LibroController{
 		res.json(result);
 	}
 
+	/*Proceso de Agregar Registros*/
 	async agregar (req,res){
 	    const libro = req.body;
 	    try{
-		/* Agregar registro */
+	
 		const [result] = await pool.query(`INSERT INTO libros(nombre,autor,categoria,anio_publicacion,ISBN) VALUES (?,?,?,?,?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN]);
 		res.json({"ID insertado":result.insertId});
-		res.json(result);
+
 		 
 	    }catch (e){
 
@@ -29,6 +30,29 @@ class LibroController{
 	    }
 
 	}
+
+	/*Proceso de Actualizar Registros*/
+
+	async actualizar (req,res){
+	    const libro = req.body;
+	    try{
+		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE ISBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
+
+		res.json({"Registros actualizados ":result.changedRows});
+		
+		
+	    }catch (e){
+		
+	        console.log( e);
+		const Error = e.message;
+		res.status(400).json({Error });	
+	
+	    }
+
+	}
+
+
+
 
 }
 
