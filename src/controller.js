@@ -18,15 +18,12 @@ class LibroController{
 	    try{
 		/**************** Validación del ingreso correcto de los campos ***********/
 		const {autor,nombre,categoria,anio_publicacion,ISBN} = req.body;
-//		const nombre = req.body.nombre;
-//		const categoria = req.body.categoria;
-//		const anio_publicacion = req.body.anio_publicacion;
-//		const ISBN = req.body.ISBN;
 
 		if (!autor || !nombre || !categoria || !anio_publicacion || !ISBN){
 		   console.log ("Verificar los parámetros definidos!!!");
-		    res.status(400).json({ Error: 'Verificar los parámetros definidos!!!' });
-		    return;
+		    
+		    return res.status(400).json({ Error: 'Verificar los parámetros definidos!!!1' })
+		
 		   }
 
 		/*************** Fin Validación del ingreso correcto de los campos  *************/
@@ -62,23 +59,22 @@ class LibroController{
 
 		if (!ISBN){
 		   console.log ("Error: Verificar parámetro ISBN!!!");
-		    //res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
-		    	throw "Verificar parámetro ISBN!!!"
-		    return;
+
+		    return res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });;
 		   }
 
 		/**************** FIN Validación del campo ISBN ***********/
 	        const libro = req.body;
 	    
-		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE IBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
+		const [result] = await pool.query(`UPDATE libros set nombre=(?),autor=(?),categoria=(?),anio_publicacion=(?) WHERE ISBN=(?)`,[libro.nombre,libro.autor,libro.categoria,libro.anio_publicacion,libro.ISBN ]);
 
 		
 		
 		if (result.affectedRows > 0) {
 			res.json({"Registros actualizados ":result.changedRows});
 		    } else {
-			//res.status(400).json("No se pudo actualizar los datos del libro!!!");	
-			throw "No se pudo actualizar los datos del libro!!!";
+			res.status(400).json("No se pudo actualizar los datos del libro!!!");	
+
 		    }		 
 		
 	    }catch (e){
@@ -100,8 +96,10 @@ class LibroController{
 
 		if (!ISBN){
 		   console.log ("Error: Verificar parámetro ISBN!!!");
-		    res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
-		    return;
+		    
+		    return res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' })
+
+
 		   }
 
 		/**************** FIN Validación del campo ISBN ***********/
@@ -116,7 +114,7 @@ class LibroController{
 		if (result.affectedRows > 0) {
 			res.json({"Registros Eliminados ":result.affectedRows});
 		    } else {
-			res.status(400).json("No se pudo eliminar el libro espedificado!!!");	
+			res.status(400).json("No se pudo eliminar el libro especificado!!!");	
 		    }		 
 
 
