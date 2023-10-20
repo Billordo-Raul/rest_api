@@ -17,11 +17,11 @@ class LibroController{
 	async agregar (req,res){
 	    try{
 		/**************** Validación del ingreso correcto de los campos ***********/
-		const autor = req.body.autor;
-		const nombre = req.body.nombre;
-		const categoria = req.body.categoria;
-		const anio_publicacion = req.body.anio_publicacion;
-		const ISBN = req.body.ISBN;
+		const {autor,nombre,categoria,anio_publicacion,ISBN} = req.body;
+//		const nombre = req.body.nombre;
+//		const categoria = req.body.categoria;
+//		const anio_publicacion = req.body.anio_publicacion;
+//		const ISBN = req.body.ISBN;
 
 		if (!autor || !nombre || !categoria || !anio_publicacion || !ISBN){
 		   console.log ("Verificar los parámetros definidos!!!");
@@ -58,11 +58,12 @@ class LibroController{
 	   try{
 
 		/**************** Validación del campo ISBN ***********/
-		const ISBN = req.body.ISBN;
+		const {ISBN} = req.body;
 
 		if (!ISBN){
 		   console.log ("Error: Verificar parámetro ISBN!!!");
-		    res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
+		    //res.status(400).json({ Error: 'Verificar parámetro ISBN!!!' });
+		    	throw "Verificar parámetro ISBN!!!"
 		    return;
 		   }
 
@@ -76,7 +77,8 @@ class LibroController{
 		if (result.affectedRows > 0) {
 			res.json({"Registros actualizados ":result.changedRows});
 		    } else {
-			res.status(400).json("No se pudo actualizar los datos del libro!!!");	
+			//res.status(400).json("No se pudo actualizar los datos del libro!!!");	
+			throw "No se pudo actualizar los datos del libro!!!";
 		    }		 
 		
 	    }catch (e){
@@ -94,7 +96,7 @@ class LibroController{
 	async eliminar (req,res){
 	   try{
 		/**************** Validación del campo ISBN ***********/
-		const ISBN = req.body.ISBN;
+		const {ISBN} = req.body;
 
 		if (!ISBN){
 		   console.log ("Error: Verificar parámetro ISBN!!!");
