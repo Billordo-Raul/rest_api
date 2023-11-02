@@ -7,11 +7,46 @@ class LibroController{
 		res.json(result);
 	}
 
+/**************************** Proceso GetOne ***************/
+
 	async getOne (req,res){
-                const libro = req.body;
+
+	 try{
+
+		/**************** Validación del campo ID ***********/
+		const {id} = req.body;
+
+		if (!id){
+		   console.log ("Error: Verificar parámetro ID !!!");
+
+		    return res.status(400).json({ Error: 'Verificar parámetro ID!!!' });;
+		   }
+
+		/**************** FIN Validación del campo ISBN ***********/
+	        const libro = req.body;
 		const [result] = await pool.query(`SELECT * FROM libros WHERE id=(?)`,[libro.id]);
-		res.json(result);
+
+
+		    if (result.length > 0) {
+			res.json(result[0]);
+		    } else {
+			res.status(400).json("No se encontraron registro para el ID especificado !!!");	
+
+		    }		 
+
+	    }catch (e){
+		
+	        console.log( e);
+		const Error = e.message;
+		res.status(400).json({Error });	
+	
+	    }
+
+
+
+
 	}
+
 
 /****************************Proceso de Agregar Registros***************/
 	async agregar (req,res){
